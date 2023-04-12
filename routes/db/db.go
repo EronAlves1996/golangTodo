@@ -49,26 +49,7 @@ func GetTasks() []tasktypes.Task {
 	tasks := make([]tasktypes.Task, 0)
 
 	for rows.Next() {
-		var id int32
-		var description string
-		var created_at time.Time
-		var modified_at time.Time
-		var deadline time.Time
-		var is_completed bool
-		err := rows.Scan(&id, &description, &created_at, &modified_at, &deadline, &is_completed)
-
-		if err != nil {
-			panic(err)
-		}
-
-		tasks = append(tasks, tasktypes.Task{
-			Id:          id,
-			Description: description,
-			CreatedAt:   created_at,
-			ModifiedAt:  modified_at,
-			Deadline:    deadline,
-			IsCompleted: is_completed,
-		})
+		tasks = append(tasks, mapRow(rows))
 	}
 
 	return tasks
@@ -79,7 +60,8 @@ func MarkAsDone(id string) {
 	defer db.Close()
 
 	sqlStmt := `UPDATE tasks
-		SET is_completed=true
+		SET is_completed=true,
+		modified_at=?
 		WHERE id=?`
 
 	tx, err := db.Begin()
@@ -96,7 +78,7 @@ func MarkAsDone(id string) {
 
 	defer stmt.Close()
 
-	if _, err := stmt.Exec(id); err != nil {
+	if _, err := stmt.Exec(time.Now(), id); err != nil {
 		panic(err)
 	}
 
@@ -144,4 +126,87 @@ func attemptOpenDb() *sql.DB {
 	}
 
 	return db
+}
+
+func GetTask(id string) tasktypes.Task {
+	db := attemptOpenDb()
+	defer db.Close()
+
+	stmt, err := db.Prepare("select * from tasks where id=?")
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer stmt.Close()
+
+	rst, err := stmt.Query(id)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer rst.Close()
+
+	rst.Next()
+	task := mapRow(rst)
+	return task
+}
+
+func SaveTask(t *tasktypes.EditTask) {
+	db := attemptOpenDb()
+	defer db.Close()
+
+	tx, err := db.Begin()
+
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := db.Prepare(`UPDATE tasks
+	SET description=?,
+	deadline=?,
+	modified_at=?
+	WHERE id=?`)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer stmt.Close()
+
+	tm, err := time.Parse("2006-1-02", t.Deadline)
+
+	if err != nil {
+		panic(err)
+	}
+
+	if _, err := stmt.Exec(t.Description, tm, time.Now(), t.Id); err != nil {
+		panic(err)
+	}
+
+	tx.Commit()
+}
+
+func mapRow(r *sql.Rows) tasktypes.Task {
+	var id int32
+	var description string
+	var created_at time.Time
+	var modified_at time.Time
+	var deadline time.Time
+	var is_completed bool
+	err := r.Scan(&id, &description, &created_at, &modified_at, &deadline, &is_completed)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return tasktypes.Task{
+		Id:          id,
+		Description: description,
+		CreatedAt:   created_at,
+		ModifiedAt:  modified_at,
+		Deadline:    deadline,
+		IsCompleted: is_completed,
+	}
 }

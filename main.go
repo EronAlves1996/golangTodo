@@ -24,4 +24,6 @@ func addRoutes(e *gin.Engine) {
 	e.GET("/nova-tarefa", routes.CreateTask)
 	e.POST("/criar-tarefa", routes.HandleNewTask)
 	e.GET("/concluir-tarefa", routes.MarkTaskAsDone)
+	e.GET("/editar-tarefa", routes.EditTask)
+	e.POST("/salvar-tarefa", routes.SaveTask)
 }
