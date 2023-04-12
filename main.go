@@ -13,5 +13,6 @@ func main() {
 }
 
 func addRoutes(e *gin.Engine) {
+	e.Static("/static", "./static")
 	e.GET("/", routes.Index)
 }
