@@ -163,7 +163,7 @@ func SaveTask(t *tasktypes.EditTask) {
 		panic(err)
 	}
 
-	stmt, err := db.Prepare(`UPDATE tasks
+	stmt, err := tx.Prepare(`UPDATE tasks
 	SET description=?,
 	deadline=?,
 	modified_at=?
@@ -182,6 +182,31 @@ func SaveTask(t *tasktypes.EditTask) {
 	}
 
 	if _, err := stmt.Exec(t.Description, tm, time.Now(), t.Id); err != nil {
+		panic(err)
+	}
+
+	tx.Commit()
+}
+
+func DeleteTask(id string) {
+	db := attemptOpenDb()
+	defer db.Close()
+
+	tx, err := db.Begin()
+
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := tx.Prepare("DELETE FROM tasks WHERE id=?")
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer stmt.Close()
+
+	if _, err := stmt.Exec(id); err != nil {
 		panic(err)
 	}
 

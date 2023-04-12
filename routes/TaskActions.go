@@ -42,3 +42,11 @@ func SaveTask(c *gin.Context) {
 
 	c.Redirect(301, "/")
 }
+
+func DeleteTask(c *gin.Context) {
+	taskId := c.Query("id")
+
+	db.DeleteTask(taskId)
+
+	c.Redirect(301, "/")
+}
