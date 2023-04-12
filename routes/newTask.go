@@ -8,19 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type NewTask struct {
-	Description string `form:"description" binding:"required"`
-	Deadline    string `form:"deadline" binding:"required"`
-}
-
 func CreateTask(c *gin.Context) {
 	c.HTML(200, "new-task.tmpl", gin.H{
-		"test": "Test data",
+		"Title":       "Nova Tarefa",
+		"Destination": "/criar-tarefa",
+		"ButtonLabel": "Criar",
 	})
 }
 
 func HandleNewTask(c *gin.Context) {
-	newTask := NewTask{}
+	newTask := tasktypes.NewTask{}
 
 	if err := c.ShouldBind(&newTask); err != nil {
 		panic(err)

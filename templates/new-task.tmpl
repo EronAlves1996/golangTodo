@@ -16,15 +16,16 @@
                 </div>
             </header>
             <main>
-                <h2>Nova Tarefa</h2>
-                <form action="/criar-tarefa" method="POST">
+                <h2>{{.Title}}</h2>
+                <form action="{{.Destination}}" method="POST">
+                    <input hidden type="text" name="id" id="id" value="{{.TaskId}}" />
                     <label for="description">
-                        Descrição <input type="text" name="description" id="description" />
+                        Descrição <input type="text" name="description" id="description" value="{{.TaskDescription}}"/>
                     </label>
                     <label for="deadline">
-                        Concluir em <input type="date" name="deadline" id="deadline" />
+                        Concluir em <input type="date" name="deadline" id="deadline" value="{{.TaskDeadline}}"/>
                     </label>
-                    <button type="submit">Criar</button>
+                    <button type="submit">{{.ButtonLabel}}</button>
                 </form>
             </main>
         </div>

@@ -18,3 +18,14 @@ type Task struct {
 	Deadline    time.Time
 	IsCompleted bool
 }
+
+type NewTask struct {
+	Description string `form:"description" binding:"required"`
+	Deadline    string `form:"deadline" binding:"required"`
+}
+
+type EditTask struct {
+	Id          string `form:"id" binding:"required"`
+	Description string `form:"description" binding:"required"`
+	Deadline    string `form:"deadline" binding:"required"`
+}
