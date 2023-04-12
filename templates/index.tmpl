@@ -16,11 +16,14 @@
                 </div>
             </header>
             <main>
-                <a href="./nova-tarefa">
-                    <button type="button">
-                        Criar tarefa
-                    </button>
-                </a>
+                <section class="sub-header">
+                    <a href="./nova-tarefa">
+                        <button type="button" class="neutral">
+                            Criar tarefa
+                        </button>
+                    </a>
+                </section>
+            
                 <table>
                     <thead>
                         <tr>
@@ -37,24 +40,24 @@
                         <tr>
                             <td>{{.Id}}</td> 
                             <td>{{.Description}}</td>
-                            <td>{{.CreatedAt}}</td>
-                            <td>{{.Deadline}}</td>
-                            <td>{{.IsCompleted}}</td>
-                            <td>
+                            <td>{{.CreatedAt.Format "02/01/2006" }}</td>
+                            <td>{{.Deadline.Format "02/01/2006"}}</td>
+                            <td>{{if .IsCompleted}}Sim{{else}}Não{{end}}</td>
+                            <td id="actions">
                             {{if not .IsCompleted}}
                                 <a href="/concluir-tarefa?id={{.Id}}">
-                                    <button type="button">
+                                    <button type="button" id="done">
                                         Concluir
                                     </button>
                                 </a>
                             {{end}}
-                                <a href="/editar-tarefa?id={{.Id}}">
-                                    <button type="button">
+                                <a href="/editar-tarefa?id={{.Id}}" >
+                                    <button type="button" id="edit">
                                         Editar
                                     </button>
                                 </a>
-                                <a href="/deletar-tarefa?id={{.Id}}">
-                                    <button type="button">
+                                <a href="/deletar-tarefa?id={{.Id}}" >
+                                    <button type="button" id="delete">
                                         Deletar
                                     </button>
                                 </a>
