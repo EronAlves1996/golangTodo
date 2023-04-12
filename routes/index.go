@@ -6,7 +6,7 @@ import (
 
 func Index(c *gin.Context) {
 
-	c.HTML(200, "index.tpml", gin.H{
+	c.HTML(200, "index.tmpl", gin.H{
 		"test": "Test data",
 	})
 

@@ -8,6 +8,7 @@ import (
 func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
+	addRoutes(r)
 	r.Run(":8080")
 }
 
