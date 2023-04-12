@@ -16,7 +16,33 @@
                 </div>
             </header>
             <main>
-                {{ .test }}
+                <a href="./nova-tarefa">
+                    <button type="button">
+                        Criar tarefa
+                    </button>
+                </a>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Descrição</th>
+                            <th>Criado em</th>
+                            <th>Concluir em</th>
+                            <th>Concluído?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ range .tasks }}
+                        <tr>
+                            <td>{{.Id}}</td> 
+                            <td>{{.Description}}</td>
+                            <td>{{.CreatedAt}}</td>
+                            <td>{{.Deadline}}</td>
+                            <td>{{.IsCompleted}}</td>
+                        </tr>
+                        {{ end }}
+                    </tbody>
+                </table>
             </main>
         </div>
         <footer>
