@@ -74,6 +74,35 @@ func GetTasks() []tasktypes.Task {
 	return tasks
 }
 
+func MarkAsDone(id string) {
+	db := attemptOpenDb()
+	defer db.Close()
+
+	sqlStmt := `UPDATE tasks
+		SET is_completed=true
+		WHERE id=?`
+
+	tx, err := db.Begin()
+
+	if err != nil {
+		panic(err)
+	}
+
+	stmt, err := tx.Prepare(sqlStmt)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer stmt.Close()
+
+	if _, err := stmt.Exec(id); err != nil {
+		panic(err)
+	}
+
+	tx.Commit()
+}
+
 func CreateTask(t *tasktypes.TaskToDb) {
 	db := attemptOpenDb()
 	defer db.Close()

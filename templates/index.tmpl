@@ -41,11 +41,13 @@
                             <td>{{.Deadline}}</td>
                             <td>{{.IsCompleted}}</td>
                             <td>
+                            {{if not .IsCompleted}}
                                 <a href="/concluir-tarefa?id={{.Id}}">
                                     <button type="button">
                                         Concluir
                                     </button>
                                 </a>
+                            {{end}}
                                 <a href="/editar-tarefa?id={{.Id}}">
                                     <button type="button">
                                         Editar
@@ -69,3 +71,4 @@
     </div>
 </body>
 </html>
+
