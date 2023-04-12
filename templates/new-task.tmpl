@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/style.css">
+    <title>Listinha de tarefas</title>
+</head>
+<body>
+    <div>
+        <div class="upper-session">
+            <header>
+                <div>
+                    <h1>Lista de tarefas</h1>
+                </div>
+            </header>
+            <main>
+                <h2>Nova Tarefa</h2>
+                <form action="/criar-tarefa" method="POST">
+                    <label for="description">
+                        Descrição <input type="text" name="description" id="description" />
+                    </label>
+                    <label for="deadline">
+                        Concluir em <input type="date" name="deadline" id="deadline" />
+                    </label>
+                    <button type="submit">Criar</button>
+                </form>
+            </main>
+        </div>
+        <footer>
+            <p>2023 - Eron Alves</p>
+        </footer>
+    </div>
+</body>
+</html>
