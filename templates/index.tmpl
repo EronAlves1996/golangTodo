@@ -29,6 +29,7 @@
                             <th>Criado em</th>
                             <th>Concluir em</th>
                             <th>Concluído?</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,23 @@
                             <td>{{.CreatedAt}}</td>
                             <td>{{.Deadline}}</td>
                             <td>{{.IsCompleted}}</td>
+                            <td>
+                                <a href="/concluir-tarefa?id={{.Id}}">
+                                    <button type="button">
+                                        Concluir
+                                    </button>
+                                </a>
+                                <a href="/editar-tarefa?id={{.Id}}">
+                                    <button type="button">
+                                        Editar
+                                    </button>
+                                </a>
+                                <a href="/deletar-tarefa?id={{.Id}}">
+                                    <button type="button">
+                                        Deletar
+                                    </button>
+                                </a>
+                            </td>
                         </tr>
                         {{ end }}
                     </tbody>
